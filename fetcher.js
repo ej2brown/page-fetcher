@@ -25,17 +25,19 @@ request(http, (error, _response, body) => {
         fs.writeFile(file, body, (err) => {
           if (err) {
             throw err;
-          } else {
-            const stats = fs.statSync(file);
-            const fileSizeInBytes = stats.size;
-            console.log(`Downloaded and saved ${fileSizeInBytes} bytes to ${file}`)
-            rl.close()
-            return
           }
         })
       }
-      rl.close()
-      return
     });
   }
+  fs.writeFile(file, body, (err) => {
+    if (err) {
+      throw err;
+    }
+    const stats = fs.statSync(file);
+    const fileSizeInBytes = stats.size;
+    console.log(`Downloaded and saved ${fileSizeInBytes} bytes to ${file}`)
+    rl.close()
+    return
+  })
 });
